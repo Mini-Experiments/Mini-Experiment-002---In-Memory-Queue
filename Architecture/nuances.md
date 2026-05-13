@@ -42,4 +42,10 @@ This isn’t redundant though. It still allows other independent producers to co
 
 2. **Payment Processing** — The system needs confirmation from the payment gateway before proceeding. Here, even with a queue, the producer must wait for the response.
 
+## Analogous to Computer Networking ?
+1. The producer structures the data as a strongly defined object (HTTP request), then serializes it to JSON (like HTTP is text). 
+2. The JSON is the raw form moving through the queue (like raw bytes in TCP). 
+3. Once it reaches the consumer, it desearilizes back into a structured event (like parsing the HTTP request). 
+4. So yes, structurally, it mirrors that layered network model.
+
 ---
