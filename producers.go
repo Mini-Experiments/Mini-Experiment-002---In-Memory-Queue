@@ -34,6 +34,7 @@ func push(event *Event) {
 func process(producerID string, wg *sync.WaitGroup) {
 	defer wg.Done()   // important
 
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 	rand1 := rand.Intn(10) + 1
 	localVariable := 0
 	// looping event generation a random number of time.
@@ -48,12 +49,11 @@ func process(producerID string, wg *sync.WaitGroup) {
 		random(&event)
 		event.ProducerID = producerID
 		push(&event)
+		
+		time.Sleep(time.Duration(r.Intn(3000)+1000) * time.Millisecond)
+		
 	}
-
-	rand2 := rand.Intn(1000000) + 500000
-	for i := 0; i < rand2; i++ {
-		// inducing time delay
-	}
+	fmt.Printf("Total number of events created by %s are %d",producerID,localVariable)
 }
 
 func main() {

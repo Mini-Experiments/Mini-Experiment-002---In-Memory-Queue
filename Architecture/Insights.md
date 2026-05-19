@@ -48,3 +48,9 @@ This isn’t redundant though. It still allows other independent producers to co
 3. Once it reaches the consumer, it desearilizes back into a structured event (like parsing the HTTP request). 
 4. So yes, structurally, it mirrors that layered network model.
 ---
+
+## GO Language Insights
+1. Using for loop based time delay loops in different processes does not work, since each process is running pareallely. The for loop just burns CPU cycles -- all goroutines race through it simultaneously and finish nearly at the same time. 
+2. Sleep function actually pauses thea goroutine, letting others run in between, creating real time gaps.
+3. Go's default random generator has one shared seed for the whole program. Thus making the sequence predictable. In order to achieve actual randomization, we give each goroutines it's own generator. 
+4. A deck of cards shared by 4 players, if they all draw from the same deck in order then sequence is predictable. But what we did was provide them with their own independent shuffled decks. Now the sequence is completely independent frmo others. 
