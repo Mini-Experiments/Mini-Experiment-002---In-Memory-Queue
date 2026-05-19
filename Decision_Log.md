@@ -169,3 +169,13 @@ The project will be implemented in Go, ensuring a lean, fast, and concurrency-re
 4. Producers run for finite bursts with random delays, not indefinitely. 
 
 ---
+
+## [DECISION 07]
+
+### Consumer Implementation
+
+1. Two consumers with different functions were implemented, in order to resemble multiple consumers playing different roles as in real systems.
+
+2. ConsumerID was allocated randomly and simple filtering used in order to allocate consumers.
+
+---
