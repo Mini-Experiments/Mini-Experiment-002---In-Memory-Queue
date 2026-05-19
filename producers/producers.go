@@ -53,7 +53,7 @@ func process(producerID string, wg *sync.WaitGroup) {
 		time.Sleep(time.Duration(r.Intn(3000)+1000) * time.Millisecond)
 		
 	}
-	fmt.Printf("Total number of events created by %s are %d",producerID,localVariable)
+	fmt.Printf("Total number of events created by %s are %d. \n",producerID,localVariable)
 }
 
 func main() {

@@ -147,3 +147,25 @@ Go was selected to compound with prior work, leverage its strong concurrency mod
 
 ### Consequence
 The project will be implemented in Go, ensuring a lean, fast, and concurrency-ready foundation.
+
+---
+## [DECISION 06]
+
+### Producer Implementation
+
+1. Producers as goroutines/processes of one master program, not separate program.
+    1. **Alternative** - Have different programs for each producer.
+    2. **Rationale** - For experiment scope, assumed all 4 producers to be server logs, producing the same type of events.
+2. Log event fields: producerID, consumerID, IPAddress, pushTimestamp, eventID, payload.
+    1. **Alternative** - The complete standard structure of a log event.
+    2. **Rationale** - Simplified enough for demo implementation. 
+        1. producerID - To track parent producer of an event.
+        2. consumerID - To decide consumer, assuming multiple consumers with different functionalities.
+        3. pushTimestamp - To decide which event was pushed first onto the queue for lock allocation.
+        4. eventID - For verifying order preservation.
+        5. IPAddress and Payload - To draw some resemblance to the standard structure.
+
+3. Push function prints to the terminal for slice 1.
+4. Producers run for finite bursts with random delays, not indefinitely. 
+
+---
