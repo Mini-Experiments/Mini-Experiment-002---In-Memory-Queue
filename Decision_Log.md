@@ -6,6 +6,9 @@
 3. Data structure/memory representation of events.
 4. Type of producer or consumer for demonstration.
 5. **Go** as the programming language.
+6. Producers as goroutines of the same program.
+7. A couple of consumers with different functionalities.
+8. Queue implemented using Linked Lists.
 
 ## [DECISION 00]
 
@@ -178,4 +181,17 @@ The project will be implemented in Go, ensuring a lean, fast, and concurrency-re
 
 2. ConsumerID was allocated randomly and simple filtering used in order to allocate consumers.
 
+---
+
+## [DECISION 08]
+
+### Queue Implementation
+
+1. Linked List chosen for queue implementation.
+    1. **Alternatives** - Array (rejected - non-dynamic size) and Stack (unnecessary complexity)
+    2. **Rationale** - 
+        1. Since it's highly unpredictable as to how many events might be in the queue at any given instance of time. The best choice was to use Linked List. 
+        2. Choosing an arbitrary absurdly big size for an array would have simply wasted storage space. 
+        3. Furthermore linked lists also provide for a way to release resources when used.
+2. Push/Pop output to terminal for isolated testing and simplicity.
 ---
