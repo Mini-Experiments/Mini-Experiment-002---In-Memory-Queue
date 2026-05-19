@@ -47,5 +47,4 @@ This isn’t redundant though. It still allows other independent producers to co
 2. The JSON is the raw form moving through the queue (like raw bytes in TCP). 
 3. Once it reaches the consumer, it desearilizes back into a structured event (like parsing the HTTP request). 
 4. So yes, structurally, it mirrors that layered network model.
-
 ---

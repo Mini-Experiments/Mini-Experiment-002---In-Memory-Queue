@@ -5,6 +5,7 @@
 2. Standard for format of events to be used throughout the system.
 3. Data structure/memory representation of events.
 4. Type of producer or consumer for demonstration.
+5. **Go** as the programming language.
 
 ## [DECISION 00]
 
@@ -123,3 +124,26 @@ We need a minimal but clear demonstration: printing events in order keeps the fo
 We will confirm that the events arrive in order and can be easily inspected, ensuring that the producer-to-queue-to-consumer pipeline works as expected.
 
 ---
+## [DECISION 05]
+
+### Context
+A technology stack decision was needed for building the producer-consumer in-memory queue system, ensuring future scalability and skill compounding.
+
+### Decision
+Go will be the programming language chosen for this build.
+
+### Alternatives
+
+| Alternative | Decision | Reason |
+|---|---|---|
+| Python | Rejected | Faster iterations, but not as performant for scaling as Go; also diverges from prior Go-based build. |
+| Java | Rejected | Mature, but verbose; slower iterations; heavier runtime. |
+| Node.js | Rejected | Great for I/O, but less performant; less aligned with systems-level ambition. |
+| Rust | Rejected | Powerful but steeper learning curve; Go better for quick, iterative development. |
+| C# | Rejected | Cross-platform, but heavier runtime; not as nimble as Go in prototyping. |
+
+### Rationale
+Go was selected to compound with prior work, leverage its strong concurrency model, and align with industry demand for scalable, efficient systems.
+
+### Consequence
+The project will be implemented in Go, ensuring a lean, fast, and concurrency-ready foundation.
