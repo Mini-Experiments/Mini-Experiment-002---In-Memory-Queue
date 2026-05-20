@@ -9,6 +9,10 @@
 6. Producers as goroutines of the same program.
 7. A couple of consumers with different functionalities.
 8. Queue implemented using Linked Lists.
+9. Mutex Locks used for pushing and popping.
+10. pop() constantly checks for events in queue, assigning them to the designated consumer, by creating a process of that consumer.
+11. Used a couple of lists to verify order preservation.
+12. Ran a spell check and corrected typos in the decision log.
 
 ## [DECISION 00]
 
@@ -164,7 +168,7 @@ The project will be implemented in Go, ensuring a lean, fast, and concurrency-re
     2. **Rationale** - Simplified enough for demo implementation. 
         1. producerID - To track parent producer of an event.
         2. consumerID - To decide consumer, assuming multiple consumers with different functionalities.
-        3. pushTimestamp - To decide which event was pushed first onto the queue for lock allocation.
+        3. Timestamp - To decide which event was pushed first onto the queue for lock allocation.
         4. eventID - For verifying order preservation.
         5. IPAddress and Payload - To draw some resemblance to the standard structure.
 
@@ -194,4 +198,19 @@ The project will be implemented in Go, ensuring a lean, fast, and concurrency-re
         2. Choosing an arbitrary absurdly big size for an array would have simply wasted storage space. 
         3. Furthermore linked lists also provide for a way to release resources when used.
 2. Push/Pop output to terminal for isolated testing and simplicity.
+---
+
+## [DECISION 09]
+
+### Integrated System Implementation
+1. For interaction between queue and consumers. Pre-consumer multiple go-routines spawned by pop for each event. 
+    1. **Alternative** - 
+        1. Both the queue and the consumers functioning as normal functions. This would have wasted CPU usage and decreased throughput, since continuous events for the same consumer would have blocked the other consumer causing a bottleneck.
+        2. Creating a process for each consumer constantly polling the queue and checking for their respective events. Would have failed when the number of consumers scaled. Secondly, corruption risk from multiple goroutines accessing head simultaneously without synchronization.
+        3. Create a process for the pop function constantly checking if the queue is empty or not. This would still have caused a bottleneck since the consumers would still have been functioning synchronously.
+    2. **Rationale** - Create a process for the pop function constantly checking the queue, and create different processes of required consumers. So no event gets blocked and since Go handles garbage collection itself, the consumer processes so created are automatically terminate to release the resources. 
+
+2. Mutex locks used for both the push and pop functions since they share the head pointer in the queue. Prevents corrupting the queue.
+
+3. Used two lists -- pushed and popped to finally verify the correctness of the implemented system. 
 ---
