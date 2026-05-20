@@ -5,6 +5,9 @@ import (
 	"math/rand"
 	"sync"
 	"time"
+	"os"
+	"os/signal"
+	"syscall"
 )
 
 type Event struct {
@@ -23,6 +26,9 @@ type Node struct {
 
 var head *Node
 var mu sync.Mutex
+var pushed []string
+var popped []string
+
 
 func consumer1(event Event) {
 	fmt.Println("This is consumer one.")
@@ -51,6 +57,7 @@ func push(event Event) {
 		}
 		temp.Next = newNode
 	}
+	pushed = append(pushed, event.EventID)
 }
 
 func pop() {
@@ -63,7 +70,8 @@ func pop() {
 	temp := head
 	head = head.Next
 	mu.Unlock()
-
+	popped = append(popped, temp.Value.EventID)
+	
 	// check for consumer ID
 	if temp.Value.ConsumerID == "X" {
 		go consumer1(temp.Value)
@@ -108,8 +116,23 @@ func producer(producerID string, wg *sync.WaitGroup) {
 	}
 }
 
+// For handling termination from the terminal.
+func setupSignalHandler() {
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+
+	go func() {
+		<-c
+		fmt.Println("\n\n--- Program Terminated (Ctrl+C) ---")
+		fmt.Println("Pushed Events:", pushed)
+		fmt.Println("Popped Events:", popped)
+		os.Exit(0)
+	}()
+}
+
 func main() {
 
+	setupSignalHandler()
 	var wg sync.WaitGroup
 
 	producerID := 'A'
