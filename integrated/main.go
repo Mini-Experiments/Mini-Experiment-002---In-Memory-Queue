@@ -14,7 +14,7 @@ type Event struct {
 	ProducerID    string
 	ConsumerID    string
 	IPAddress     string
-	PushTimestamp time.Time
+	Timestamp time.Time
 	EventID       string
 	Payload       string
 }
@@ -33,13 +33,13 @@ var popped []string
 func consumer1(event Event) {
 	fmt.Println("This is consumer one.")
 	fmt.Printf("The event details received are -- \nProducerID: %s\nConsumerID: %s\nIPAddress: %s\nTimestamp: %v\nEventID: %s\nPayload: %s\n\n",
-		event.ProducerID, event.ConsumerID, event.IPAddress, event.PushTimestamp, event.EventID, event.Payload)
+		event.ProducerID, event.ConsumerID, event.IPAddress, event.Timestamp, event.EventID, event.Payload)
 }
 
 func consumer2(event Event) {
 	fmt.Println("This is consumer two.")
 	fmt.Printf("The event details received are -- \nProducerID: %s\nConsumerID: %s\nIPAddress: %s\nTimestamp: %v\nEventID: %s\nPayload: %s\n\n",
-		event.ProducerID, event.ConsumerID, event.IPAddress, event.PushTimestamp, event.EventID, event.Payload)
+		event.ProducerID, event.ConsumerID, event.IPAddress, event.Timestamp, event.EventID, event.Payload)
 }
 
 func push(event Event) {
@@ -104,7 +104,7 @@ func producer(producerID string, wg *sync.WaitGroup) {
 		event := Event{
 			EventID: eventID,
 		}
-
+		event.Timestamp = time.Now()
 		random(&event)         
 		event.ProducerID = producerID
 
